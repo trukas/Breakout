@@ -15,6 +15,8 @@ import android.view.Display;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.Window;
+import android.view.WindowManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +32,8 @@ public class BreakoutGame extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         breakoutView = new BreakoutView(this);
         setContentView(breakoutView);
     }
@@ -107,6 +111,7 @@ public class BreakoutGame extends Activity {
         public void createBricksAndRestart() {
             final int OFFSET = 2;
             // Put the ball back to the start
+            data.addPoints(score);
             ball.setOnTop(paddle.getRect());
 
             int brickWidth = (screenX - (columnCount * OFFSET)) / columnCount;
@@ -122,7 +127,6 @@ public class BreakoutGame extends Activity {
             }
             // if game over reset scores and lives
             if (lives == 0) {
-                data.addPoints(score);
                 score = 0;
                 lives = 3;
             }

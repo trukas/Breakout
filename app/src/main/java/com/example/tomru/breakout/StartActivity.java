@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 public class StartActivity extends AppCompatActivity {
-    
+
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -28,6 +28,8 @@ public class StartActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // requestWindowFeature(Window.FEATURE_NO_TITLE);
+        // getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_start);
         // Set up the login form.
         mNameView = (EditText) findViewById(R.id.nameText);
@@ -36,6 +38,7 @@ public class StartActivity extends AppCompatActivity {
         startButton.setOnClickListener(v -> {
             attemptLogin();
         });
+
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
