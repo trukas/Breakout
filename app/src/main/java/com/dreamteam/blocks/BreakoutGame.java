@@ -318,6 +318,7 @@ public class BreakoutGame extends Activity {
         @Override
         public boolean onTouchEvent(MotionEvent motionEvent) {
             switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
+                case MotionEvent.ACTION_MOVE:
                 case MotionEvent.ACTION_DOWN:
                     paused = false;
                     if (motionEvent.getX() > screenX / 2) {
