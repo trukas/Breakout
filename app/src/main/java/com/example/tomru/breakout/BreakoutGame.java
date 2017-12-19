@@ -25,65 +25,67 @@ public class BreakoutGame extends Activity {
     // It will also hold the logic of the game
     // and respond to screen touches as well
     BreakoutView breakoutView;
+    private UserData data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         breakoutView = new BreakoutView(this);
         setContentView(breakoutView);
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        breakoutView.resume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        breakoutView.pause();
     }
 
     // Notice we implement runnable so we have
     // A thread and can override the run method.
     class BreakoutView extends SurfaceView implements Runnable {
 
+        private final int rowCount = 8;
+        private final int columnCount = 10;
         // This is our thread
         Thread gameThread = null;
-
         // This is new. We need a SurfaceHolder
         // When we use Paint and Canvas in a thread
         // We will see it in action in the draw method soon.
         SurfaceHolder ourHolder;
-
         // A boolean which we will set and unset
         // when the game is running- or not.
         volatile boolean playing;
-
         // Game is paused at the start
         boolean paused = true;
-
         // A Canvas and a Paint object
         Canvas canvas;
         Paint paint;
-
         // This variable tracks the game frame rate
         long fps;
-
-        // This is used to help calculate the fps
-        private long timeThisFrame;
-
         // The size of the screen in pixels
         int screenX;
         int screenY;
-
         Paddle paddle;
         Ball ball;
         List<Brick> bricks = new ArrayList<>();
         int numBricks = 0;
-
         int score = 0;
         int lives = 3;
-
-        private final int rowCount = 8;
-        private final int columnCount = 10;
-
+        // This is used to help calculate the fps
+        private long timeThisFrame;
         private Shader rainbowShader;
 
         // When the we initialize (call new()) on gameView
         // This special constructor method runs
         public BreakoutView(Context context) {
             super(context);
+            data = (UserData) getIntent().getSerializableExtra("UserData");
 
             ourHolder = getHolder();
             paint = new Paint();
@@ -97,7 +99,8 @@ public class BreakoutGame extends Activity {
 
             paddle = new Paddle(screenX, screenY);
             ball = new Ball(paddle.getRect());
-
+            score = data.getPoints();
+            data.updateFromRemote();
             createBricksAndRestart();
         }
 
@@ -119,6 +122,7 @@ public class BreakoutGame extends Activity {
             }
             // if game over reset scores and lives
             if (lives == 0) {
+                data.addPoints(score);
                 score = 0;
                 lives = 3;
             }
@@ -170,10 +174,14 @@ public class BreakoutGame extends Activity {
             ball.update(fps);
 
             // Check for ball colliding with a brick
+            boolean wasReversed = false;
             for (Brick brick : bricks) {
                 if (brick.getVisibility() && RectF.intersects(brick.getRect(), ball.getRect())) {
                     brick.setInvisible();
-                    ball.setNewVelocityBrick(brick.getRect());
+                    if (!wasReversed) {
+                        ball.setNewVelocityBrick(brick.getRect());
+                        wasReversed = true;
+                    }
                     score += 10;
                 }
             }
@@ -269,7 +277,7 @@ public class BreakoutGame extends Activity {
 
                 // Draw the score
                 paint.setTextSize(40);
-                canvas.drawText("Score: " + score + "   Lives: " + lives, 10, 50, paint);
+                canvas.drawText("Score: " + (score + data.getPoints()) + "   Lives: " + lives, 10, 50, paint);
 
                 // Has the player cleared the screen?
                 if (score == numBricks * 10) {
@@ -321,18 +329,6 @@ public class BreakoutGame extends Activity {
             return true;
         }
 
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        breakoutView.resume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        breakoutView.pause();
     }
 
 }
