@@ -1,4 +1,4 @@
-package com.example.tomru.breakout;
+package com.dreamteam.blocks;
 
 /**
  * Created by tomru on 2017-12-13.

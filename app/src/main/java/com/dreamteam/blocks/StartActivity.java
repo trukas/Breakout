@@ -1,4 +1,4 @@
-package com.example.tomru.breakout;
+package com.dreamteam.blocks;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;

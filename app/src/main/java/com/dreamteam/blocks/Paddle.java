@@ -1,4 +1,4 @@
-package com.example.tomru.breakout;
+package com.dreamteam.blocks;
 
 /**
  * Created by tomru on 2017-12-13.
@@ -6,22 +6,17 @@ package com.example.tomru.breakout;
 import android.graphics.RectF;
 
 public class Paddle {
-    private RectF rect;
-
-    // How long and high our paddle will be
-    private float length = 130;
-    private float height = 20;
-
-    // This will hold the pixels per second speed that the paddle will move
-    private float paddleSpeed = 350;
-
     // Which ways can the paddle move
     public final int STOPPED = 0;
     public final int LEFT = 1;
     public final int RIGHT = 2;
-
     private final int OFFSET_BOTTOM = 100;
-
+    private RectF rect;
+    // How long and high our paddle will be
+    private float length = 130;
+    private float height = 20;
+    // This will hold the pixels per second speed that the paddle will move
+    private float paddleSpeed = 350;
     private int paddleMoving = STOPPED;
 
     private int screenWidth;

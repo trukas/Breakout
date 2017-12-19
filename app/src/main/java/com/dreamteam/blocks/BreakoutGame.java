@@ -1,4 +1,4 @@
-package com.example.tomru.breakout;
+package com.dreamteam.blocks;
 
 import android.app.Activity;
 import android.content.Context;
