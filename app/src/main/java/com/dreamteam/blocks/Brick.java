@@ -1,8 +1,4 @@
-package com.example.tomru.breakout;
-
-/**
- * Created by tomru on 2017-12-13.
- */
+package com.dreamteam.blocks;
 
 import android.graphics.RectF;
 
@@ -16,12 +12,13 @@ public class Brick {
 
         isVisible = true;
 
-        int padding = 1;
+        final int padding = 2;
+        final int OFFSET_Y = 60;
 
         rect = new RectF(column * width + padding,
-                row * height + padding,
+                row * height + padding + OFFSET_Y,
                 column * width + width - padding,
-                row * height + height - padding);
+                row * height + height - padding + OFFSET_Y);
     }
 
     public RectF getRect(){

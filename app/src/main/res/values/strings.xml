@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">Breakout</string>
+    <string name="app_name">Breaking Blocks</string>
+    <string name="title_activity_start">Start game!</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="action_start">Start!</string>
+    <string name="action_username">Username</string>
 </resources>
